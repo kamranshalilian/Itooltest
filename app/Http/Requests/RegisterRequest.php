@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Helper\Helper;
+
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RegisterRequest extends FormRequest
 {
@@ -24,15 +25,9 @@ class RegisterRequest extends FormRequest
     {
         return [
             "name" => "required|string|max:255",
-            "phone" => "required|regex:/(09)[0-9]{9}/|digits:11|numeric,unique:users,phone",
+            "email" => "required|email|unique:users,email",
+            "type" => ['required', Rule::in(['admin', 'user', 'carrier'])],
             "password" => "required|string|min:6",
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'phone' => Helper::toEnglishNumbers($this->input('phone'))
-        ]);
     }
 }

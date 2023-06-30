@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Helper\Helper;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LoginRequest extends FormRequest
 {
@@ -23,15 +23,9 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "phone" => "required|regex:/(09)[0-9]{9}/|digits:11|numeric",
+            "email" => "required|email",
+            "type" => ['required', Rule::in(['admin', 'user', 'carrier'])],
             "password" => "required|string|min:6",
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'phone' => Helper::toEnglishNumbers($this->input('phone'))
-        ]);
     }
 }
