@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\CollectionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,4 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
+Route::group([], function (){
+    Route::resource('collection', CollectionController::class);
+    Route::post('collection/cancel/{collection}', [CollectionController::class, "cancel"]);
+})->middleware(['auth:sanctum', 'abilities:user']);
 
