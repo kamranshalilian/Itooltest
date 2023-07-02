@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Jobs\SMSJob;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,11 @@ class CollectionRepository
     public function getAll()
     {
         return Collection::where("user_id", auth()->id())->get();
+    }
+
+    public function getAllCollection()
+    {
+        return Collection::where("status", "pending")->get();
     }
 
     public function create(Request $request)
@@ -61,10 +67,18 @@ class CollectionRepository
         if ($collection->status == "pending" || $collection->status == "pickling") {
             $collection->status = "cancel";
             $collection->save();
+//            $message = "";
+//            dispatch(new SMSJob($message, $collection->pickup_phone));
             return ["message" => "collection is cancel"];
         }
 
         return ["message" => "you can't cancel collection"];
+    }
+
+    public function status(Collection $collection, $status)
+    {
+        $collection->status = $status;
+        return $collection->save();
     }
 
 }

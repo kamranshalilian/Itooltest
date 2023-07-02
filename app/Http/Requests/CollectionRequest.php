@@ -11,7 +11,7 @@ class CollectionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->user()->tokenCan('user');
     }
 
     /**
@@ -22,7 +22,16 @@ class CollectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "pickup_longitude" => "required",
+            "pickup_latitude" => "required",
+            "pickup_address" => "required",
+            "pickup_name" => "required",
+            "pickup_phone" => "required",
+            "deliver_longitude" => "required",
+            "deliver_latitude" => "required",
+            "deliver_address" => "required",
+            "deliver_name" => "required",
+            "deliver_phone" => "required",
         ];
     }
 }
