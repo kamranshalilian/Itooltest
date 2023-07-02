@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\PaykeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,3 +23,7 @@ Route::group([], function () {
     Route::post('collection/cancel/{collection}', [CollectionController::class, "cancel"]);
 })->middleware(['auth:sanctum', 'abilities:user']);
 
+Route::group([], function () {
+    Route::get('collections/all', [PaykeController::class,"index"]);
+    Route::post('collection/status/{collection}/{status}', [PaykeController::class, "status"]);
+})->middleware(['auth:sanctum', 'abilities:carrier']);
