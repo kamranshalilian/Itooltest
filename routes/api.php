@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-Route::group([], function (){
-    Route::resource('collection', CollectionController::class);
+Route::group([], function () {
+    Route::resource('collections', CollectionController::class)->except(["edit", "create"]);
     Route::post('collection/cancel/{collection}', [CollectionController::class, "cancel"]);
 })->middleware(['auth:sanctum', 'abilities:user']);
 

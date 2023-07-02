@@ -10,7 +10,7 @@ class CollectionRepository
 
     public function getAll()
     {
-        return Collection::all();
+        return Collection::where("user_id", auth()->id())->get();
     }
 
     public function create(Request $request)
